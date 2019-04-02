@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.plugin.wirteRead.mapper.UserMapper">
+	<resultMap id="BaseResultMap" type="com.plugin.wirteRead.model.User" >
+		<result column="id" property="id"/>
+		<result column="userId" property="name"/>
+		<result column="send_email_address" property="value"/>
+		<result column="create_time" property="createTime"/>
+		<result column="content" property="configDescribe"/>
+	</resultMap>
+	<select id="select"  parameterType="Object" resultMap="BaseResultMap">
+		select * from qyy_email_send_record where 1=1
+
+	</select>
+
+</mapper>
