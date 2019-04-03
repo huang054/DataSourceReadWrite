@@ -1,20 +1,21 @@
 spring:
   datasource:
     master:
-      jdbc-url: jdbc:mysql://192.168.xxxx:3306/S90?Unicode=true&amp;characterEncoding=UTF-8
+      url: jdbc:mysql://192.168.111.12:3306/S90?Unicode=true&amp;characterEncoding=UTF-8
       username: root
-      password: xxxxx
-      driver-class-name: com.mysql.jdbc.Driver
-    slave1:
-      jdbc-url: jdbc:mysql://192.168.xxxx:3306/S90?Unicode=true&amp;characterEncoding=UTF-8
+      password: 111111
+      driverClassName: com.mysql.jdbc.Driver
+    slave[0]:
+      url: jdbc:mysql://192.168.111.12:3306/S90?Unicode=true&amp;characterEncoding=UTF-8
       username: root
-      password: xxxxx
-      driver-class-name: com.mysql.jdbc.Driver
-    slave2:
-      jdbc-url: jdbc:mysql://192.168.xxxx:3306/S90?Unicode=true&amp;characterEncoding=UTF-8
+      password: 11111
+      driverClassName: com.mysql.jdbc.Driver
+    slave[1]:
+      url: jdbc:mysql://192.168.111.12:3306/S90?Unicode=true&amp;characterEncoding=UTF-8
       username: root
-      password: xxxxx
-      driver-class-name: com.mysql.jdbc.Driver
+      password: 11111
+      driverClassName: com.mysql.jdbc.Driver
+
 server:
   port: 8000
 mybatis:

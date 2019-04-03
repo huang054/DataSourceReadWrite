@@ -10,7 +10,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import javax.sql.DataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,39 +24,63 @@ import java.util.Map;
  */
 
 @Configuration
+@ConfigurationProperties(prefix = "spring.datasource")
 public class DataSourceConfig {
 
-    @Bean
+   public static List<DataSource> slave = new ArrayList<>();
+   private DataSource master;
+
+    public DataSource getMaster() {
+        return master;
+    }
+
+    public void setMaster(DataSource master) {
+        this.master = master;
+    }
+
+    public List<DataSource> getSlave() {
+        return slave;
+    }
+
+    public void setSlave(List<DataSource> slave) {
+        this.slave = slave;
+    }
+
+    /*@Bean
     @ConfigurationProperties("spring.datasource.master")
     public DataSource masterDataSource() {
         return DataSourceBuilder.create().build();
-    }
+    }*/
 
-    @Bean
+   /* @Bean
     @ConfigurationProperties("spring.datasource.slave1")
     public DataSource slave1DataSource() {
 
         return DataSourceBuilder.create().build();
-    }
+    }*/
 
 
 
-    @Bean
+    /*@Bean
     @ConfigurationProperties("spring.datasource.slave2")
     public DataSource slave2DataSource() {
         return DataSourceBuilder.create().build();
-    }
+    }*/
 
     @Bean
-    public DataSource myRoutingDataSource(@Qualifier("masterDataSource") DataSource masterDataSource,
-                                          @Qualifier("slave1DataSource") DataSource slave1DataSource,
-                                          @Qualifier("slave2DataSource") DataSource slave2DataSource) {
+    public MyRoutingDataSource myRoutingDataSource(){
+                                         // @Qualifier("slave1DataSource") DataSource slave1DataSource,
+                                          //@Qualifier("slave2DataSource") DataSource slave2DataSource) {
+
         Map<Object, Object> targetDataSources = new HashMap<>();
-        targetDataSources.put(DBTypeEnum.MASTER, masterDataSource);
-        targetDataSources.put(DBTypeEnum.SLAVE1, slave1DataSource);
-        targetDataSources.put(DBTypeEnum.SLAVE2, slave2DataSource);
+        targetDataSources.put(DBTypeEnum.MASTER+"master", master);
+        for (int i=0;i<slave.size();i++){
+            targetDataSources.put(DBTypeEnum.SLAVE+String.valueOf(i), slave.get(i));
+        }
+        //targetDataSources.put(DBTypeEnum.SLAVE1, slave.get(0));
+     //   targetDataSources.put(DBTypeEnum.SLAVE2,  slave.get(1));
         MyRoutingDataSource myRoutingDataSource = new MyRoutingDataSource();
-        myRoutingDataSource.setDefaultTargetDataSource(masterDataSource);
+        myRoutingDataSource.setDefaultTargetDataSource(master);
         myRoutingDataSource.setTargetDataSources(targetDataSources);
         return myRoutingDataSource;
     }

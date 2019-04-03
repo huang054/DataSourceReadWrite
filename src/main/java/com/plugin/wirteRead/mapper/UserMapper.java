@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface UserMapper {
 
-@Master
+
+
     List<User> select(@Param("name") String name);
 }

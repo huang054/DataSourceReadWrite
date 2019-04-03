@@ -16,9 +16,9 @@ public class DataSourceAop {
   /*  @Pointcut("!@annotation(com.plugin.wirteRead.annotation.Master) " +
             "&& (execution(* com.plugin.wirteRead.mapper.*.select*(..)) " +
             "|| execution(* com.plugin.wirteRead.mapper.*.get*(..)))")*/
-    @Pointcut(" (execution(* com.plugin.wirteRead.mapper.*.seleect*(..)))"+
+    @Pointcut(" (execution(* com.plugin.wirteRead.mapper.*.select*(..)))"+
               // "|| execution(* com.plugin.wirteRead.mapper.*.get*(..))"+
-              "or (@annotation(com.plugin.wirteRead.annotation.Master))")
+              "or (!@annotation(com.plugin.wirteRead.annotation.Master))")
     public void readPointcut() {
 
     }
